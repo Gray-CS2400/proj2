@@ -88,6 +88,7 @@ public class ResizableArrayStack<T> implements StackInterface<T> {
     }
 
     // algorithm evaluatePostfix
+    // has many errors, this is not a final solution
     public int evaluatePostfix(StackInterface<String> postfix){
         ResizableArrayStack<Integer> valueStack = new ResizableArrayStack<>();
         while(!postfix.isEmpty()){
