@@ -14,9 +14,14 @@ public class ResizableArrayStack<T> implements StackInterface<T> {
 
     // implementations of StackInterface methods
     // includes ensureCapacity, checkIntegrity and checkCapacity
+
     public ResizableArrayStack(){
         this(DEFAULT_CAPACITY);
     }
+
+    /**
+     * @param initialCapacity The initial capacity for the stack
+     */
     public ResizableArrayStack(int initialCapacity){
         integrityOK = false;
         checkCapacity(initialCapacity);
@@ -28,11 +33,17 @@ public class ResizableArrayStack<T> implements StackInterface<T> {
         integrityOK = true;
     }
 
+    /**
+     * @param capacity The capacity to be checked
+     */
     private void checkCapacity(int capacity){
         if(capacity > MAX_CAPACITY)
             throw new IllegalStateException("Capacity exceeded");
     }
 
+    /**
+     * @param newEntry  An object to be added to the stack.
+     */
     public void push (T newEntry){
         checkIntegrity();
         ensureCapacity();
@@ -54,6 +65,9 @@ public class ResizableArrayStack<T> implements StackInterface<T> {
         }
     }
 
+    /**
+     * @return The object that is removed from the stack
+     */
     public T pop(){
         checkIntegrity();
         if(isEmpty()){
@@ -67,6 +81,9 @@ public class ResizableArrayStack<T> implements StackInterface<T> {
         }
     }
 
+    /**
+     * @return The topmost element in the stack
+     */
     public T peek(){
         checkIntegrity();
         if(isEmpty())
@@ -75,6 +92,9 @@ public class ResizableArrayStack<T> implements StackInterface<T> {
             return stack[topIndex];
     }
 
+    /**
+     * @return If the stack is empty or not
+     */
     public boolean isEmpty(){
         return topIndex < 0;
     }
@@ -87,52 +107,71 @@ public class ResizableArrayStack<T> implements StackInterface<T> {
         }
     }
 
+    //helper method for evaluatePostfix
+
+    /**
+     * @param a The string to be checked
+     * @return If the string is a number or not
+     */
+    public boolean checkNum(String a){
+        try{
+            Integer.parseInt(a);
+            return true;
+        }
+        catch(NumberFormatException e){
+            return false;
+        }
+    }
+
     // algorithm evaluatePostfix
-    // has many errors, this is not a final solution
+
+    /**
+     * @param postfix The postfix notation of a stack
+     * @return The evaluated integer of the postfix equation
+     */
     public int evaluatePostfix(StackInterface<String> postfix){
         ResizableArrayStack<Integer> valueStack = new ResizableArrayStack<>();
+        //continuously loops until the stack is empty
         while(!postfix.isEmpty()){
-            //nextCharacter = next non-blank character of postfix
+            //nextCharacter is pop() of postfix, loops if nextCharacter is a blank character
             String nextCharacter = postfix.pop();
-            valueStack.push(parseInt(nextCharacter));
+            while(nextCharacter.equals(" ")){
+                nextCharacter = postfix.pop();
+            }
+            //checks if nextCharacter is an integer
+            if(checkNum(nextCharacter)) {
+                valueStack.push(parseInt(nextCharacter));
+            }
 
             int operandOne;
             int operandTwo;
-            int result;
 
+            //switch case for the operations
             switch(nextCharacter){
-//                case variable:
-//                    valueStack.push(parseInt(nextCharacter));
-//                    break;
                 case "+":
                     operandOne = valueStack.pop();
                     operandTwo = valueStack.pop();
-                    result = operandOne + operandTwo;
-                    valueStack.push(result);
+                    valueStack.push(operandTwo + operandOne);
                     break;
                 case "-":
                     operandOne = valueStack.pop();
                     operandTwo = valueStack.pop();
-                    result = operandOne - operandTwo;
-                    valueStack.push(result);
+                    valueStack.push(operandTwo - operandOne);
                     break;
                 case "*":
                     operandOne = valueStack.pop();
                     operandTwo = valueStack.pop();
-                    result = operandOne * operandTwo;
-                    valueStack.push(result);
+                    valueStack.push(operandTwo * operandOne);
                     break;
                 case "/":
                     operandOne = valueStack.pop();
                     operandTwo = valueStack.pop();
-                    result = operandOne / operandTwo;
-                    valueStack.push(result);
+                    valueStack.push(operandTwo / operandOne);
                     break;
                 case "^":
                     operandOne = valueStack.pop();
                     operandTwo = valueStack.pop();
-                    result = (int)(Math.pow(operandOne, operandTwo));
-                    valueStack.push(result);
+                    valueStack.push((int)(Math.pow(operandTwo, operandOne)));
                     break;
                 default:
                     break;
