@@ -15,9 +15,6 @@ class ResizableArrayStackTest {
         assertEquals("Testing", stack.peek());
 
         //Pop test
-        /**
-         *
-         */
         stack.pop();
         assertEquals("Bonjour", stack.peek());
 
@@ -81,5 +78,25 @@ class ResizableArrayStackTest {
         //2^(9/(3+(2*(7-4)))) = 2
         //Expected outcome: 2
         assertEquals(2, stack.evaluatePostfix(stack));
+
+        //Test 4:
+        stack = new ResizableArrayStack<>();
+
+        stack.push("+");
+        stack.push("*");
+        stack.push("6");
+        stack.push("5");
+        stack.push("/");
+        stack.push("-");
+        stack.push("3");
+        stack.push("4");
+        stack.push("*");
+        stack.push("2");
+        stack.push("1");
+
+        //Postfix Stack: 12*43-/56*+
+        //1*2/(4-3)+5*6 = 32
+        //Expected outcome: 32
+        assertEquals(32, stack.evaluatePostfix(stack));
     }
 }
