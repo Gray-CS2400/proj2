@@ -1,3 +1,5 @@
+import java.LinkedStack;
+
 //class LinkedStackTest
 class LinkedStackTest {
     //main method
