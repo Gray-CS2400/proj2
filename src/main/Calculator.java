@@ -16,10 +16,9 @@ public class Calculator {
 
         //a=2, b=3, c=4, d=5, e=6
         //pushing values from postfix into stack
-        /* 
-        for (int i = postfix.length(); i >= 0; i--)
+        for (int i = postfix.length() - 1; i >= 0; i--)
         {
-            String change = String.valueOf(inputEq.charAt(i));
+            String change = String.valueOf(postfix.charAt(i));
             if(change.equals("a"))
             {
                 change = "2";
@@ -38,25 +37,9 @@ public class Calculator {
             }
             postfixEval.push(change);
         }
-        */
         
-        postfixEval.push("+");
-        postfixEval.push("*");
-        postfixEval.push("6");
-        postfixEval.push("5");
-        postfixEval.push("/");
-        postfixEval.push("-");
-        postfixEval.push("2");
-        postfixEval.push("4");
-        postfixEval.push("*");
-        postfixEval.push("3");
-        postfixEval.push("2");
-
         int evaluated = postfixEval.evaluatePostfix(postfixEval);
         //expected outcome: 33
         System.out.println("Answer: " + evaluated);
-
-
-
     }
 }
