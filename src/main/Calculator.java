@@ -3,19 +3,19 @@ package main;
 public class Calculator {
 /**Calculator tests the implementation of the convertToPostfix and evaluatePostfix methods*/
     public static void main(String[] args){
-        //testing convertToPostfix
+        /** testing convertToPostfix */
         LinkedStack<String> infixToPost = new LinkedStack<>();
         String inputEq = "a*b/(c-a)+d*e";
         System.out.println("Infix Expression: " + inputEq);
         String postfix = infixToPost.convertToPostfix(inputEq);
-        //expected outcome: ab*ca-/de*+
+        /** expected outcome: ab*ca-/de*+ */
         System.out.println("Resulting Conversion: " + postfix);
 
-        //testing evaluatePostfix
+        /** testing evaluatePostfix */
         ResizableArrayStack<String> postfixEval = new ResizableArrayStack<>();
 
-        //a=2, b=3, c=4, d=5, e=6
-        //pushing values from postfix into stack
+        /**a=2, b=3, c=4, d=5, e=6 */
+        /**pushing values from postfix into stack */
         for (int i = postfix.length() - 1; i >= 0; i--)
         {
             String change = String.valueOf(postfix.charAt(i));
@@ -39,7 +39,7 @@ public class Calculator {
         }
         
         int evaluated = postfixEval.evaluatePostfix(postfixEval);
-        //expected outcome: 33
+        /** expected outcome: 33 */
         System.out.println("Answer: " + evaluated);
 
         
