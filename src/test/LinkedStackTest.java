@@ -1,12 +1,19 @@
-import java.LinkedStack;
+public class LinkedStackTest {
+    public static void main(String[] args) {
+        LinkedStack<Character> stack = new LinkedStack<>();
+        String infixExpression = "a*b/(c-a)+d*e";
+        String expectedPostfix = "ab*ca-/de*+";
 
-//class LinkedStackTest
-class LinkedStackTest {
-    //main method
-    public static void main (String[] args) throws Exception {
-        String infix = "a*b/(c-a)+d*e";
-        //call the convertToPostfix method
-        String postfix = convertToPostfix(infix);
-        System.out.println ("Postfix expression: " + postfix);
+        String postfixExpression = stack.convertToPostfix(infixExpression);
+
+        System.out.println("Infix Expression: " + infixExpression);
+        System.out.println("Expected Postfix Expression: " + expectedPostfix);
+        System.out.println("Postfix Expression: " + postfixExpression);
+
+        if (postfixExpression.equals(expectedPostfix)) {
+            System.out.println("Test Passed: Postfix expression matches the expected result.");
+        } else {
+            System.out.println("Test Failed: Postfix expression does not match the expected result.");
+        }
     }
 }
