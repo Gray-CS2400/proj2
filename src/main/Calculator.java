@@ -1,43 +1,60 @@
 package main;
 
 public class Calculator {
-/**Calculator tests the implementation of the convertToPostFix and evaluatePostFix methods */
+/**Calculator tests the implementation of the convertToPostfix and evaluatePostfix methods*/
     public static void main(String[] args){
-        StackInterface<String> infixToPost = new LinkedStack<>();
-        //currently not sure how im supposed to add the stuff to the stack
-        //input value: a*b/(c-a)+d*e
+        //testing convertToPostfix
+        LinkedStack<String> infixToPost = new LinkedStack<>();
         String inputEq = "a*b/(c-a)+d*e";
-        for(int i = 0; i < inputEq.length();i++)
-        {
-            infixToPost.push(inputEq.charAt(i));
-        }
-        StackInterface<String> result = new LinkedStack<>();
-        result.convertToPostFix(infixToPost);
-        //probably need to do the for loop thing like last time or something maybe push all the values off the stack in a loop
-        System.out.print(result);
-
-
+        System.out.println("Infix Expression: " + inputEq);
+        String postfix = infixToPost.convertToPostfix(inputEq);
         //expected outcome: ab*ca-/de*+
+        System.out.println("Resulting Conversion: " + postfix);
 
-        StackInterface<String> postfixEval = new ResizableArrayStack<>();
-        StackInterface<String> carrier = new ResizableArrayStack<>();
+        //testing evaluatePostfix
+        ResizableArrayStack<String> postfixEval = new ResizableArrayStack<>();
+
         //a=2, b=3, c=4, d=5, e=6
-        //also might need to do a loop to change the values of the string to put into resizablearraystack
-        //to make the code better could probably take the value from infix stack and do a loop, could also try to take user input bc not sure what to do
-        postfixEval.push("2");
-        postfixEval.push("3");
-        postfixEval.push("*");
-        postfixEval.push("4");
-        postfixEval.push("2");
-        postfixEval.push("-");
-        postfixEval.push("/");
-        postfixEval.push("5");
-        postfixEval.push("6");
-        postfixEval.push("*");
+        //pushing values from postfix into stack
+        /* 
+        for (int i = postfix.length(); i >= 0; i--)
+        {
+            String change = String.valueOf(inputEq.charAt(i));
+            if(change.equals("a"))
+            {
+                change = "2";
+            }
+            else if (change.equals("b")) {
+                change = "3";
+            }
+            else if (change.equals("c")) {
+                change = "4";
+            }
+            else if (change.equals("d")) {
+                change = "5";
+            }
+            else if (change.equals("e")) {
+                change = "6";
+            }
+            postfixEval.push(change);
+        }
+        */
+        
         postfixEval.push("+");
+        postfixEval.push("*");
+        postfixEval.push("6");
+        postfixEval.push("5");
+        postfixEval.push("/");
+        postfixEval.push("-");
+        postfixEval.push("2");
+        postfixEval.push("4");
+        postfixEval.push("*");
+        postfixEval.push("3");
+        postfixEval.push("2");
 
-        int evaluated = carrier.evaluatePostFix(postfixEval);
-        System.out.println(evaluated);
+        int evaluated = postfixEval.evaluatePostfix(postfixEval);
+        //expected outcome: 33
+        System.out.println("Answer: " + evaluated);
 
 
 
