@@ -27,6 +27,7 @@ class CalculatorTest {
             }
             else if (change.equals("c")) {
                 change = "3";
+            }
             evaluator.push(change);
         }
         //expected outcome: 2
@@ -35,4 +36,3 @@ class CalculatorTest {
     }
 }
 
-}
