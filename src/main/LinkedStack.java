@@ -1,77 +1,129 @@
 package main;
-import java.util.*;
+import java.util.EmptyStackException;
 
-public class LinkedStack
-{
-	
-	static int order(char a)
-	{
-		switch (a)  //creating switch for priority deciding
-		{
-		case '+':
-		case '-':
-			return 1;
-	
-		case '*':
-		case '/':
-			return 2;
-	
-		case '^':
-			return 3;
-		}
-		return -1;
-	}
-	
+public class LinkedStack<T> implements StackInterface<T> {
+    private Node topNode; // Reference to the first node in the chain
 
-	static String conversion(String a) //creating cinversion function
-	{
+    // Private inner class for Node
+    private class Node {
+        private T data; // Entry in the stack
+        private Node next; // Link to the next node
 
-		String res = new String("");//blank string is created
-		
-		Stack<Character> ss = new Stack<>();//stack is created
-		
-		for (int i = 0; i<a.length(); ++i) //iterarting
-		{
-			char c = a.charAt(i);//choosing character of string one by one
-			
-			if (Character.isLetterOrDigit(c))//if it is operand it will simply add to string
-				res += c;
-		
-			else if (c == '(')
-				ss.push(c); // if it is left paranthesis it will simply push into stack
-			
-			else if (c == ')') //if right paranthesis then character will add string upto left paranthesis not meet or stack becomes empty
-			{
-				while (!ss.isEmpty() &&
-						ss.peek() != '(')
-					res += ss.pop();
-				
-					ss.pop();
-			}
-			else 
-			{
-				while (!ss.isEmpty() && order(c)   //if it is token then on basis of priority  it goes on stack only when lowest priotiy tokens will there otherwise pop them
-						<= order(ss.peek())){
-					
-					res += ss.pop();
-			}
-				ss.push(c);
-			}
-	
-		}
-	
-		while (!ss.isEmpty()){
-			if(ss.peek() == '('){   // if we found that left paranthesis it means there is no right paranthesis would exist hence it is invalid
-				return "invalid data given";
-			}
-			res += ss.pop(); //otherwise finally popping element and adding it to res
-		}
-		return res;//finally returning res
-	}
+        private Node(T dataPortion) {
+            this(dataPortion, null);
+        }
 
-	public static void main(String[] args)
-	{
-		String z ="a*b-(c+d)+e";
-		System.out.println(conversion(z));
-	}
+        private Node(T dataPortion, Node nextNode) {
+            data = dataPortion;
+            next = nextNode;
+        }
+    }
+
+    public LinkedStack() {
+        topNode = null;
+    }
+
+    @Override
+    public void push(T newEntry) {
+        topNode = new Node(newEntry, topNode);
+    }
+
+    @Override
+    public T pop() {
+        if (isEmpty()) {
+            throw new EmptyStackException();
+        }
+        T top = topNode.data;
+        topNode = topNode.next;
+        return top;
+    }
+
+    @Override
+    public T peek() {
+        if (isEmpty()) {
+            throw new EmptyStackException();
+        }
+        return topNode.data;
+    }
+
+    @Override
+    public boolean isEmpty() {
+        return topNode == null;
+    }
+
+    @Override
+    public void clear() {
+        topNode = null;
+    }
+
+    // Convert infix expression to postfix
+    public String convertToPostfix(String infix) {
+        LinkedStack<Character> operatorStack = new LinkedStack<>();
+        StringBuilder postfix = new StringBuilder();
+
+        for (int i = 0; i < infix.length(); i++) {
+            char nextCharacter = infix.charAt(i);
+            switch (nextCharacter) {
+                case ' ': // Ignore whitespace
+                    break;
+                case '^':
+                    operatorStack.push(nextCharacter);
+                    break;
+                case '+':
+                case '-':
+                case '*':
+                case '/':
+                    while (!operatorStack.isEmpty() && precedence(nextCharacter) <= precedence(operatorStack.peek())) {
+                        postfix.append(operatorStack.pop());
+                    }
+                    operatorStack.push(nextCharacter);
+                    break;
+                case '(':
+                    operatorStack.push(nextCharacter);
+                    break;
+                case ')':
+                    char topOperator = operatorStack.pop();
+                    while (topOperator != '(') {
+                        postfix.append(topOperator);
+                        topOperator = operatorStack.pop();
+                    }
+                    break;
+                default: // Operand
+                    postfix.append(nextCharacter);
+                    break;
+            }
+        }
+
+        // Append remaining operators from the stack
+        while (!operatorStack.isEmpty()) {
+            postfix.append(operatorStack.pop());
+        }
+
+        return postfix.toString();
+    }
+
+    // Method to determine precedence of operators
+    private int precedence(char operator) {
+        switch (operator) {
+            case '+':
+            case '-':
+                return 1;
+            case '*':
+            case '/':
+                return 2;
+            case '^':
+                return 3;
+            default:
+                return -1; // Lowest precedence
+        }
+    }
+
+    public static void main(String[] args) {
+        LinkedStack<Character> stack = new LinkedStack<>();
+        String infixExpression = "a + b * (c ^ d - e) / f";
+
+        String postfixExpression = stack.convertToPostfix(infixExpression);
+        System.out.println("Infix Expression: " + infixExpression);
+        System.out.println("Postfix Expression: " + postfixExpression);
+    }
 }
