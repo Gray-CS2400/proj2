@@ -1,6 +1,11 @@
+package main;
+
 import main.LinkedStack;
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.*;
 
 class LinkedStackTest {
+    @Test
     public void methodTest() {
         LinkedStack<Character> stack = new LinkedStack<>();
         String infixExpression = "a*b/(c-a)+d*e";
