@@ -1,7 +1,7 @@
+import main.LinkedStack;
 
-
-public class LinkedStackTest {
-    public static void main(String[] args) {
+class LinkedStackTest {
+    public void methodTest() {
         LinkedStack<Character> stack = new LinkedStack<>();
         String infixExpression = "a*b/(c-a)+d*e";
         String expectedPostfix = "ab*ca-/de*+";
