@@ -8,4 +8,4 @@ Brian Park (CPP: bwpark@cpp.edu | GitHub: daebreads | ResizableArrayStack.java a
 Connor Jordan (CPP: cdjordan@cpp.edu | GitHub: cons1187 | Calculator.java and CalculatorTest.java) <br>
 Max Lau (CPP: mxlau@cpp.edu | GitHub: maxlaucpp | LinkedStack.java and LinkedStackTest.java)
 
-Link to Video:
+Link to Video: https://youtu.be/NxDIOU81c78
