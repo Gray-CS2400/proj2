@@ -1,5 +1,3 @@
-package main;
-
 import main.LinkedStack;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
@@ -13,14 +11,40 @@ class LinkedStackTest {
 
         String postfixExpression = stack.convertToPostfix(infixExpression);
 
-        System.out.println("Infix Expression: " + infixExpression);
-        System.out.println("Expected Postfix Expression: " + expectedPostfix);
-        System.out.println("Postfix Expression: " + postfixExpression);
+        assertEquals(expectedPostfix, postfixExpression);
+    }
 
-        if (postfixExpression.equals(expectedPostfix)) {
-            System.out.println("Test Passed: Postfix expression matches the expected result.");
-        } else {
-            System.out.println("Test Failed: Postfix expression does not match the expected result.");
-        }
+    @Test
+    public void evaluationTest() {
+        //Test 1
+        LinkedStack<Character> stack = new LinkedStack<>();
+
+        String testExpression = "a+b";
+        String expectedtestPostfix = "ab+";
+
+        String testpostfixExpression = stack.convertToPostfix(testExpression);
+
+        assertEquals(expectedtestPostfix, testpostfixExpression);
+
+        //Test 2
+        LinkedStack<Character> stacktwo = new LinkedStack<>();
+
+        String secondExpression = "a/b+(c-d)";
+        String expectedsecondPostfix = "ab/cd-+";
+
+        String secondpostfixExpression = stacktwo.convertToPostfix(secondExpression);
+
+        assertEquals(expectedsecondPostfix, secondpostfixExpression);
+
+        //Test 3
+        LinkedStack<Character> stackthree = new LinkedStack<>();
+
+        String thirdExpression = "e-b*c^a+d";
+        String expectedthirdPostfix = "ebca^*-d+";
+
+        String thirdpostfixExpression = stackthree.convertToPostfix(thirdExpression);
+
+        assertEquals(expectedthirdPostfix, thirdpostfixExpression);
+
     }
 }
